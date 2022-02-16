@@ -1,6 +1,7 @@
 <?php
 
-class ContainerHeader extends Block{
+class ContainerHeader extends Block
+{
 
     private string $Name;
 
@@ -13,7 +14,8 @@ class ContainerHeader extends Block{
         $this->Size = $size;
     }
 
-    protected function GetStyle():string{
+    protected function GetStyle(): string
+    {
         return "container__header";
     }
 

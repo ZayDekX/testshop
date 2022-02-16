@@ -10,6 +10,11 @@ class ProductCard extends Block
         $this->Data = $data;
     }
 
+    function MakeBody():string
+    {
+        return "<div class=\"placeholder\"></div>";
+    }
+
     protected function MakeFooter(): string
     {
         ob_start();?>

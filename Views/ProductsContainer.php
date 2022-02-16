@@ -6,15 +6,15 @@ class ProductsContainer extends Container
 
     function __construct(array $products)
     {
-        parent::__construct("Products");
+        parent::__construct("Products", true, false, true, true);
         $this->ProductData = $products;
     }
 
     function MakeBody(): string
     {
         ob_start();
-        
-        foreach($this->ProductData as $data){
+
+        foreach ($this->ProductData as $data) {
             echo new ProductCard($data);
         }
 

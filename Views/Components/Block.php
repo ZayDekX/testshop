@@ -1,16 +1,16 @@
 <?php
 
 abstract class Block
-{    
-    
+{
+
     private bool $WrapSelf = true;
 
     private bool $WrapHeader = true;
-    
+
     private bool $WrapBody = true;
 
     private bool $WrapFooter = true;
-    
+
     protected function __construct(bool $wrapSelf, bool $wrapHeader, bool $wrapBody, bool $wrapFooter)
     {
         $this->WrapSelf = $wrapSelf;
@@ -48,17 +48,22 @@ abstract class Block
     {
         return "";
     }
-    
-    private function MakeBlock(string $body, bool $wrap = true, string $class = "") : string{
+
+    private function MakeBlock(string $body, bool $wrap = true, string $class = ""): string
+    {
+        if (!$body)
+            return "";
         ob_start();
-        
-        if($wrap){
+
+        if ($wrap) {
             echo "<div";
-            if($class) echo " class=\"{$class}\"";
+            if ($class)
+                echo " class=\"{$class}\"";
             echo ">";
-        } 
+        }
         echo $body;
-        if($wrap) echo "</div>";
+        if ($wrap)
+            echo "</div>";
 
         return ob_get_clean();
     }
@@ -80,6 +85,6 @@ abstract class Block
         $bodyBlock = $this->MakeBlock($body, $this->WrapBody, $bodyClass);
         $footerBlock = $this->MakeBlock($footer, $this->WrapFooter, $footerClass);
 
-        return $this->MakeBlock($headerBlock.$bodyBlock.$footerBlock, $this->WrapSelf, $style);
+        return $this->MakeBlock($headerBlock . $bodyBlock . $footerBlock, $this->WrapSelf, $style);
     }
 }
