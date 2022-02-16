@@ -5,48 +5,12 @@ class PageContent extends Block
     private array $ProductData;
     private array $ReviewData;
 
-    function __construct()
+    function __construct(array $productData, array $reviewData)
     {
         parent::__construct(true, false, false, false);
-        $this->ProductData = $this->GetProductData();
-        $this->ReviewData = $this->GetReviewData();
+        $this->ProductData = $productData;
+        $this->ReviewData = $reviewData;
     }
-
-    private function GetReviewData()
-    {
-        return array(
-            new ReviewData("User1", date_create(), "Test review text"),
-            new ReviewData("User2", date_create(), "Test review text 2")
-        );
-    }
-
-    private function GetProductData()
-    {
-        return array(
-            new ProductData("Product", 100),
-            new ProductData("Product 2", 200),
-            new ProductData("Product 2", 200),
-            new ProductData("Product 2", 200),
-            new ProductData("Product 2", 200),
-            new ProductData("Product 2", 200),
-            new ProductData("Product 2", 200),
-            new ProductData("Product 2", 200),
-            new ProductData("Product 2", 200),
-            new ProductData("Product 2", 200),
-            new ProductData("Product 2", 200),
-            new ProductData("Product 2", 200),
-            new ProductData("Product 2", 200),
-            new ProductData("Product 2", 200),
-            new ProductData("Product 2", 200),
-            new ProductData("Product 2", 200),
-            new ProductData("Product 2", 200),
-            new ProductData("Product 2", 200),
-            new ProductData("Product 2", 200),
-            new ProductData("Product 2", 200),
-            new ProductData("Product 2", 200),
-            new ProductData("Product 2", 200));
-    }
-
 
     protected function MakeBody(): string
     {
