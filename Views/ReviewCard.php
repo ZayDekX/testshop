@@ -6,7 +6,11 @@ class ReviewCard extends Block
 
     function __construct(ReviewData $data)
     {
-        parent::__construct(true, true, true, false);
+        $this
+        ->Wrapped()
+        ->WithWrappedHeader()
+        ->WithWrappedBody();
+
         $this->Data = $data;
     }
 

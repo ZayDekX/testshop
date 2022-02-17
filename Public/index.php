@@ -2,10 +2,12 @@
 
 include_once __DIR__ . "/../utils.php";
 
-Load("Models");
-Load("Views/Components");
-Load("Views");
-Load("Controllers");
+//spl_autoload_register(function ($class){IncludeClass($class);});
+
+IncludeDir("Models");
+IncludeDir("Views/Components");
+IncludeDir("Views");
+IncludeDir("Controllers");
 
 $pageController = new PageController();
 

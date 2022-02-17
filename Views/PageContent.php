@@ -7,17 +7,15 @@ class PageContent extends Block
 
     function __construct(array $productData, array $reviewData)
     {
-        parent::__construct(true, false, false, false);
+        $this->Wrapped();
+
         $this->ProductData = $productData;
         $this->ReviewData = $reviewData;
     }
 
     protected function MakeBody(): string
     {
-        ob_start();?>
-        <?=new ProductsContainer($this->ProductData)?>
-        <?=new ReviewsContainer($this->ReviewData)?>
-
-        <?php return ob_get_clean();
+        return new ProductsContainer($this->ProductData) .
+            new ReviewsContainer($this->ReviewData);
     }
 }

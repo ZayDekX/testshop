@@ -4,7 +4,9 @@ class ReviewInputForm extends Block
 {
     function __construct()
     {
-        parent::__construct(true, true, false, false);
+        $this
+        ->Wrapped()
+        ->WithWrappedHeader();
     }
 
     protected function MakeHeader(): string

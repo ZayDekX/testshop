@@ -1,30 +1,48 @@
 <?php
 
-abstract class Block
+include_once 'Element.php';
+
+abstract class Block extends Element
 {
+    private bool $WrapSelf = false;
 
-    private bool $WrapSelf = true;
+    private bool $WrapHeader = false;
 
-    private bool $WrapHeader = true;
+    private bool $WrapBody = false;
 
-    private bool $WrapBody = true;
+    private bool $WrapFooter = false;
 
-    private bool $WrapFooter = true;
+    private string|null $AdditionalAttributes = null;
 
-    protected function __construct(bool $wrapSelf, bool $wrapHeader, bool $wrapBody, bool $wrapFooter)
+    function __construct()
     {
-        $this->WrapSelf = $wrapSelf;
-        $this->WrapHeader = $wrapHeader;
-        $this->WrapBody = $wrapBody;
-        $this->WrapFooter = $wrapFooter;
+        parent::__construct('div');
     }
 
-    protected function GetStyle(): string
+    protected final function WithWrappedHeader(): Block
     {
-        return Block::GetStyleOf($this);
+        $this->WrapHeader = true;
+        return $this;
     }
 
-    public static final function GetStyleOf(Block $block): string
+    protected final function WithWrappedBody(): Block
+    {
+        $this->WrapBody = true;
+        return $this;
+    }
+
+    protected final function WithWrappedFooter(): Block
+    {
+        $this->WrapFooter = true;
+        return $this;
+    }
+
+    protected function GetStyleClass(): string
+    {
+        return Block::GetStyleClassOf($this);
+    }
+
+    public static final function GetStyleClassOf(Block $block): string
     {
         return Block::GetStyleFor(get_class($block));
     }
@@ -52,39 +70,37 @@ abstract class Block
     private function MakeBlock(string $body, bool $wrap = true, string $class = ""): string
     {
         if (!$body)
-            return "";
+            return '';
         ob_start();
 
         if ($wrap) {
-            echo "<div";
+            echo '<div';
             if ($class)
-                echo " class=\"{$class}\"";
-            echo ">";
+                echo ' class="', $class, '"';
+            echo '>';
         }
         echo $body;
         if ($wrap)
-            echo "</div>";
+            echo '</div>';
 
         return ob_get_clean();
     }
 
-    function __toString()
+    protected final function Build():string
     {
-        $header = $this->MakeHeader();
-        $body = $this->MakeBody();
-        $footer = $this->MakeFooter();
+        $class = $this->GetStyleClass();
+        $elementStyle = Block::GetStyleClassOf($this);
 
-        $style = $this->GetStyle();
-        $elementStyle = Block::GetStyleOf($this);
+        $this->WithStyle($class.' '.$elementStyle);
 
-        $headerClass = $style ? "{$elementStyle}__header" : "";
-        $bodyClass = $style ? "{$elementStyle}__body" : "";
-        $footerClass = $style ? "{$elementStyle}__footer" : "";
+        $headerElement = new Element('div', $this->WrapHeader, $class.'__header',$this->MakeHeader());
+        $bodyElement = new Element('div', $this->WrapBody, $class.'__body',$this->MakeBody());
+        $footerElement = new Element('div', $this->WrapFooter, $class.'__footer',$this->MakeFooter());
+        
+        $this->WithContent($headerElement.$bodyElement.$footerElement);
 
-        $headerBlock = $this->MakeBlock($header, $this->WrapHeader, $headerClass);
-        $bodyBlock = $this->MakeBlock($body, $this->WrapBody, $bodyClass);
-        $footerBlock = $this->MakeBlock($footer, $this->WrapFooter, $footerClass);
+        return parent::Build();
 
-        return $this->MakeBlock($headerBlock . $bodyBlock . $footerBlock, $this->WrapSelf, $style);
+        //return $this->MakeBlock($headerBlock . $bodyBlock . $footerBlock, $this->WrapSelf, $class . $this->AdditionalAttributes);
     }
 }

@@ -4,15 +4,14 @@ abstract class Container extends Block
 {
     private string $Name;
 
-    function __construct(string $name, bool $wrapSelf, bool $wrapHeader, bool $wrapBody, bool $wrapFooter)
+    function __construct(string $name)
     {
-        parent::__construct($wrapSelf, $wrapHeader, $wrapBody, $wrapFooter);
         $this->Name = $name;
     }
 
-    protected function GetStyle(): string
+    protected function GetStyleClass(): string
     {
-        return "container " . parent::GetStyle();
+        return 'container ' . parent::GetStyleClass();
     }
 
     public function MakeHeader(): string

@@ -6,7 +6,12 @@ class ProductsContainer extends Container
 
     function __construct(array $products)
     {
-        parent::__construct("Products", true, false, true, true);
+        parent::__construct("Products");
+        $this
+        ->Wrapped()
+        ->WithWrappedBody()
+        ->WithWrappedFooter();
+
         $this->ProductData = $products;
     }
 

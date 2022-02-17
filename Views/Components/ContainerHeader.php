@@ -9,12 +9,13 @@ class ContainerHeader extends Block
 
     public function __construct(string $name, int $size)
     {
-        parent::__construct(true, false, false, false);
+        $this->Wrapped();
+
         $this->Name = $name;
         $this->Size = $size;
     }
 
-    protected function GetStyle(): string
+    protected function GetStyleClass(): string
     {
         return "container__header";
     }

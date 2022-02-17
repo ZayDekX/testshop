@@ -6,7 +6,11 @@ class ProductCard extends Block
 
     function __construct(ProductData $data)
     {
-        parent::__construct(true, false, true, true);
+        $this
+        ->Wrapped()
+        ->WithWrappedBody()
+        ->WithWrappedFooter();
+
         $this->Data = $data;
     }
 
@@ -27,9 +31,10 @@ class ProductCard extends Block
                 <?=$this->Data->Cost?>
             </span>
         </div>
-        <div class="button--primary">
+        <div class="button--primary" onclick="openOrderModalDialog(<?=$this->Data->Id?>)">
             <span>Buy</span>
         </div>
+        
         <?php return ob_get_clean();
     }
 }

@@ -6,7 +6,13 @@ class ReviewsContainer extends Container
 
     function __construct(array $reviews)
     {
-        parent::__construct("Reviews", true, false, true, true);
+        parent::__construct("Reviews");
+        
+        $this
+        ->Wrapped()
+        ->WithWrappedBody()
+        ->WithWrappedFooter();
+            
         $this->ReviewData = $reviews;
     }
 
