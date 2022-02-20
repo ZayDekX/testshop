@@ -1,8 +1,8 @@
 <?php
 
-function Load(string $folder)
+function IncludeDir(string $dir)
 {
-    foreach (glob(__DIR__ . "/{$folder}/*.php") as $filename) {
-        include_once $filename;
+    foreach (glob(__DIR__ . "/{$dir}/*.php") as $file) {
+        include_once $file;
     }
 }

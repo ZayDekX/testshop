@@ -6,18 +6,32 @@ class ProductsContainer extends Container
 
     function __construct(array $products)
     {
-        parent::__construct("Products", true, false, true, true);
         $this->ProductData = $products;
+        parent::__construct("Products");
     }
 
-    function MakeBody(): string
+    function MakeBody(): Element
     {
-        ob_start();
+        $body = new Element();
+
+        $content = array();
 
         foreach ($this->ProductData as $data) {
-            echo new ProductCard($data);
+            array_push($content, new ProductCard($data));
         }
 
-        return ob_get_clean();
+        return $body->Wrapped()
+            ->WithStyle('container__body')
+            ->WithContent($content);
+    }
+
+    protected function Build(): void
+    {
+        parent::Build();
+
+        $this
+            ->Wrapped()
+            ->WithStyle('products-container')
+            ->WithContent($this->MakeBody());
     }
 }

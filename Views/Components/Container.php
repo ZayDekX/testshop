@@ -1,22 +1,30 @@
 <?php
 
-abstract class Container extends Block
+include_once 'Element.php';
+
+class Container extends Element
 {
     private string $Name;
 
-    function __construct(string $name, bool $wrapSelf, bool $wrapHeader, bool $wrapBody, bool $wrapFooter)
+    function __construct(string $name)
     {
-        parent::__construct($wrapSelf, $wrapHeader, $wrapBody, $wrapFooter);
         $this->Name = $name;
     }
 
-    protected function GetStyle(): string
+    protected function MakeHeader()
     {
-        return "container " . parent::GetStyle();
+        ob_start();?>
+        <div class="container__header">
+            <h2><?=$this->Name?></h2>
+            <div class="separator"></div>
+        </div>
+        <?php return ob_get_clean();
     }
 
-    public function MakeHeader(): string
-    {
-        return new ContainerHeader($this->Name, 2);
-    }
+	protected function Build(): void {
+        $this
+            ->Wrapped()
+            ->WithStyle('container')
+            ->WithContent($this->MakeHeader());
+	}
 }

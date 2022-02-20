@@ -1,12 +1,12 @@
 <?php
 
-include_once __DIR__ . "/../utils.php";
+require "../utils.php";
 
-Load("Models");
-Load("Views/Components");
-Load("Views");
-Load("Controllers");
+IncludeDir("Models");
+IncludeDir("Views/Components");
+IncludeDir("Views");
+IncludeDir("Controllers");
 
-$pageController = new PageController();
+$pageController = new MainPageController();
 
-echo $pageController->MakeView();
+echo $pageController->RenderPage();

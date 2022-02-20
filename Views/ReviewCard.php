@@ -1,17 +1,18 @@
 <?php
 
-class ReviewCard extends Block
+class ReviewCard extends Element
 {
     public ReviewData $Data;
 
     function __construct(ReviewData $data)
     {
-        parent::__construct(true, true, true, false);
         $this->Data = $data;
     }
 
-    protected function MakeHeader(): string
+    private function MakeHeader(): Element
     {
+        $header = new Element();
+
         ob_start();?>
         <div class="review-card__info">
             <span>
@@ -21,13 +22,32 @@ class ReviewCard extends Block
                 <?= date_format($this->Data->Date, "d.m.Y")?>
             </span>
         </div>
-        <?=new Separator()?>
 
-        <?php return ob_get_clean();
+        <?php 
+
+        return $header
+            ->Wrapped()
+            ->WithStyle('review-card__header')
+            ->WithContent(array(ob_get_clean(), new Separator()));
     }
 
-    protected function MakeBody(): string
+    private function MakeBody(): Element
     {
-        return $this->Data->Text;
+        $element = new Element();
+
+        return 
+        $element
+            ->Wrapped()
+            ->WithStyle('review-card__body')
+            ->WithContent($this->Data->Text);
+    }
+
+    function Build():void{
+        parent::Build();
+
+        $this
+            ->Wrapped()
+            ->WithStyle('review-card')
+            ->WithContent(array($this->MakeHeader(), $this->MakeBody()));
     }
 }

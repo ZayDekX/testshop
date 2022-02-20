@@ -6,24 +6,42 @@ class ReviewsContainer extends Container
 
     function __construct(array $reviews)
     {
-        parent::__construct("Reviews", true, false, true, true);
+        parent::__construct("Reviews");
         $this->ReviewData = $reviews;
     }
 
-    protected function MakeBody(): string
+    private function MakeBody(): Element
     {
-        ob_start();
+        $body = new Element();
+
+        $content = array();
 
         foreach ($this->ReviewData as $data) {
-            echo new ReviewCard($data);
-            echo new Separator();
+            array_push($content, new ReviewCard($data), new Separator());
         }
 
-        return ob_get_clean();
+        return $body->Wrapped()
+            ->WithStyle('container__body reviews-container__body')
+            ->WithContent($content);
     }
 
-    protected function MakeFooter(): string
+    private function MakeFooter(): Element
     {
-        return new ReviewInputForm();
+        $element = new Element;
+
+        return
+            $element->Wrapped()
+            ->WithStyle('container__footer reviews-container__footer')
+            ->WithContent(new ReviewInputForm());
+    }
+
+    protected function Build(): void
+    {
+        parent::Build();
+
+        $this
+            ->Wrapped()
+            ->WithStyle('reviews-container')
+            ->WithContent(array($this->MakeBody(), $this->MakeFooter()));
     }
 }
