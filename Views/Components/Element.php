@@ -2,55 +2,78 @@
 
 class Element
 {
-    private bool $Wrapped;
+    private bool $Wrapped = false;
 
-    private string|null $Style;
+    private array $Styles = array();
 
-    private string $Tag;
+    private string $Tag = '';
 
-    private Element|string|null $Content;
+    private array $Content = array();
 
-    public function __construct(string $tag = '', bool $wrapped = false, $style = null, Element|string|null $content = null)
+    private array $Attributes = array();
+
+    public function Wrapped(string $tag = 'div'): Element
     {
         $this->Tag = $tag;
-        $this->Wrapped = $wrapped;
-        $this->Style = $style;
-        $this->Content = $content;
-    }
-
-    public function Wrapped(): Element
-    {
         $this->Wrapped = true;
         return $this;
     }
 
     public function WithStyle(string $style): Element
     {
-        $this->Style = $style;
+        array_push($this->Styles, $style);
         return $this;
     }
 
-    public function WithContent(Element|string $content): Element
+    public function WithContent(string|array |null $content = null): Element
     {
-        $this->Content = $content;
+        if (is_string($content)) {
+            array_push($this->Content, $content);
+        }
+        elseif (is_array($content)) {
+            $this->Content = array_merge($this->Content, $content);
+        }
         return $this;
     }
 
-    protected function Build(): string
+    public function WithAttributes(string|array |null $attributes = null): Element
+    {
+        if (is_string($attributes)) {
+            array_push($this->Attributes, $attributes);
+        }
+        elseif (is_array($attributes)) {
+            $this->Attributes = array_merge($this->Attributes, $attributes);
+        }
+        return $this;
+    }
+
+    private function Render(): string
     {
         ob_start();
 
         if ($this->Wrapped) {
             echo '<', $this->Tag;
 
-            if ($this->Style) {
-                echo ' ', 'class="', $this->Style, '"';
+            $styles = trim(join(' ', $this->Styles));
+
+            if ($styles) {
+                echo ' ', 'class="', $styles, '"';
+            }
+
+            if ($this->Attributes) {
+                foreach ($this->Attributes as $name => $value) {
+                    echo ' ', trim($name), '="', trim($value), '"';
+                }
             }
 
             echo '>', PHP_EOL;
         }
 
-        echo $this->Content, PHP_EOL;
+        if (is_array($this->Content)) {
+            foreach ($this->Content as $item) {
+                echo $item, PHP_EOL;
+            }
+        }
 
         if ($this->Wrapped) {
             echo '</', $this->Tag, '>', PHP_EOL;
@@ -59,8 +82,14 @@ class Element
         return ob_get_clean();
     }
 
+    protected function Build(): void
+    {
+
+    }
+
     public final function __toString()
     {
-        return $this->Build();
+        $this->Build();
+        return $this->Render();
     }
 }

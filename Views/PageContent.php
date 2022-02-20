@@ -1,21 +1,21 @@
 <?php
 
-class PageContent extends Block
+class PageContent extends Element
 {
     private array $ProductData;
     private array $ReviewData;
 
     function __construct(array $productData, array $reviewData)
     {
-        $this->Wrapped();
-
         $this->ProductData = $productData;
         $this->ReviewData = $reviewData;
     }
 
-    protected function MakeBody(): string
+    function Build(): void
     {
-        return new ProductsContainer($this->ProductData) .
-            new ReviewsContainer($this->ReviewData);
+        $this->Wrapped()
+            ->WithStyle('page-content')
+            ->WithContent(array(new ProductsContainer($this->ProductData),
+            new ReviewsContainer($this->ReviewData)));
     }
 }

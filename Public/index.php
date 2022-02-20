@@ -1,14 +1,12 @@
 <?php
 
-include_once __DIR__ . "/../utils.php";
-
-//spl_autoload_register(function ($class){IncludeClass($class);});
+require "../utils.php";
 
 IncludeDir("Models");
 IncludeDir("Views/Components");
 IncludeDir("Views");
 IncludeDir("Controllers");
 
-$pageController = new PageController();
+$pageController = new MainPageController();
 
-echo $pageController->MakeView();
+echo $pageController->RenderPage();
