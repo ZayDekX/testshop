@@ -1,6 +1,6 @@
 <?php
 
-class PageContent extends Element
+class MainPageContent extends Element
 {
     private array $ProductData;
     private array $ReviewData;
@@ -15,7 +15,10 @@ class PageContent extends Element
     {
         $this->Wrapped()
             ->WithStyle('page-content')
-            ->WithContent(array(new ProductsContainer($this->ProductData),
-            new ReviewsContainer($this->ReviewData)));
+            ->WithContent(
+            new OrderModal(),
+            new ProductsContainer($this->ProductData),
+            new ReviewsContainer($this->ReviewData)
+        );
     }
 }

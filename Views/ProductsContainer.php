@@ -22,7 +22,7 @@ class ProductsContainer extends Container
 
         return $body->Wrapped()
             ->WithStyle('container__body')
-            ->WithContent($content);
+            ->WithContent(...$content);
     }
 
     protected function Build(): void

@@ -26,23 +26,25 @@ class Page extends Element
 
     private Element|null $BodyContent = null;
 
-    public final function WithBody(array|Element $content): void
+    public final function WithBody(Element|string ...$content): Page
     {
         if(!$this->BodyContent && is_array($content))
         {
             $this->BodyContent = new Element();
-            $this->BodyContent->WithContent($content);
+            $this->BodyContent->WithContent(...$content);
         }
         else
         {
             $this->BodyContent = $content;
         }
+
+        return $this;
     }
 
     protected final function Build() : void
     {
         $this
             ->Wrapped('html')
-            ->WithContent(array($this->MakeHead(), $this->MakeBody()));
+            ->WithContent($this->MakeHead(), $this->MakeBody());
     }
 }

@@ -19,31 +19,27 @@ class Element
         return $this;
     }
 
-    public function WithStyle(string $style): Element
+    public function WithStyle(string...$styles): Element
     {
-        array_push($this->Styles, $style);
+        $this->Styles = array_merge($this->Styles, $styles);
         return $this;
     }
 
-    public function WithContent(string|array |null $content = null): Element
+    public function WithContent(Element|string...$content): Element
     {
-        if (is_string($content)) {
-            array_push($this->Content, $content);
-        }
-        elseif (is_array($content)) {
-            $this->Content = array_merge($this->Content, $content);
-        }
+        $this->Content = array_merge($this->Content, $content);
         return $this;
     }
 
-    public function WithAttributes(string|array |null $attributes = null): Element
+    public function WithAttributes(string...$attributes): Element
     {
-        if (is_string($attributes)) {
-            array_push($this->Attributes, $attributes);
-        }
-        elseif (is_array($attributes)) {
-            $this->Attributes = array_merge($this->Attributes, $attributes);
-        }
+        $this->Attributes = array_merge($this->Attributes, $attributes);
+        return $this;
+    }
+
+    public function WithAttribute(string $key, string $value): Element
+    {
+        $this->Attributes[$key] = $value;
         return $this;
     }
 

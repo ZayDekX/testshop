@@ -22,17 +22,28 @@ class ReviewsContainer extends Container
 
         return $body->Wrapped()
             ->WithStyle('container__body reviews-container__body')
-            ->WithContent($content);
+            ->WithContent(...$content);
     }
 
     private function MakeFooter(): Element
     {
-        $element = new Element;
+        $form = new Form('review', 'Save review');
 
-        return
-            $element->Wrapped()
+        $form
+            ->WithAttributes(...[
+            'id' => 'review-form',
+            'method' => 'post',
+            'action' => 'make_review'])
             ->WithStyle('container__footer reviews-container__footer')
-            ->WithContent(new ReviewInputForm());
+            ->WithInputs([
+            'Username' => 'text',
+            'Text' => 'text'
+        ]);
+
+        return $form;
+    // $element->Wrapped()
+    // ->WithStyle('container__footer reviews-container__footer')
+    // ->WithContent(new ReviewInputForm());
     }
 
     protected function Build(): void
@@ -42,6 +53,6 @@ class ReviewsContainer extends Container
         $this
             ->Wrapped()
             ->WithStyle('reviews-container')
-            ->WithContent(array($this->MakeBody(), $this->MakeFooter()));
+            ->WithContent($this->MakeBody(), $this->MakeFooter());
     }
 }

@@ -1,12 +1,12 @@
+<!DOCTYPE html>
 <?php
 
-require "../utils.php";
+require "../Utils/Autoloader.php";
 
-IncludeDir("Models");
-IncludeDir("Views/Components");
-IncludeDir("Views");
-IncludeDir("Controllers");
+Autoloader::SetRoot(__DIR__ . '/..');
+Autoloader::RegisterDirectories('/Utils', '/Models', '/Views', '/Controllers');
 
-$pageController = new MainPageController();
+new MainPageController();
+new OrderController();
 
-echo $pageController->RenderPage();
+Router::Handle();

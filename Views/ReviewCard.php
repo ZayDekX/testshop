@@ -28,7 +28,7 @@ class ReviewCard extends Element
         return $header
             ->Wrapped()
             ->WithStyle('review-card__header')
-            ->WithContent(array(ob_get_clean(), new Separator()));
+            ->WithContent(ob_get_clean(), new Separator());
     }
 
     private function MakeBody(): Element
@@ -48,6 +48,6 @@ class ReviewCard extends Element
         $this
             ->Wrapped()
             ->WithStyle('review-card')
-            ->WithContent(array($this->MakeHeader(), $this->MakeBody()));
+            ->WithContent($this->MakeHeader(), $this->MakeBody());
     }
 }

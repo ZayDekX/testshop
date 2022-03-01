@@ -32,7 +32,7 @@ class ProductCard extends Element
             </span>
         </div>
         <div class="button--primary" onclick="openOrderModalDialog(<?=$this->Data->Id?>)">
-            <span>Buy</span>
+            <span>Order</span>
         </div>
         
         <?php 
@@ -49,6 +49,6 @@ class ProductCard extends Element
         $this
             ->Wrapped()
             ->WithStyle('product-card')
-            ->WithContent(array($this->MakeBody(), $this->MakeFooter()));
+            ->WithContent($this->MakeBody(), $this->MakeFooter());
     }
 }

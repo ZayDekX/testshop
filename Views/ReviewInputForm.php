@@ -1,6 +1,6 @@
 <?php
 
-class ReviewInputForm extends Element
+class ReviewInputForm extends Form
 {
     protected function MakeHeader(): string
     {
@@ -25,6 +25,7 @@ class ReviewInputForm extends Element
     {
         $this->Wrapped()
             ->WithStyle('review-input-form')
-            ->WithContent(array($this->MakeHeader(), $this->MakeBody(), $this->MakeFooter()));
+            ->WithAttributes(...['action' => 'make_review'])
+            ->WithContent($this->MakeHeader(), $this->MakeBody(), $this->MakeFooter());
     }
 }
